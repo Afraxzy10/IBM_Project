@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CodeVision — Intelligence Platform</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#B8963E;
+  --gold-light:#D4AF6A;
+  --gold-pale:#F0E2B6;
+  --cream:#FAF7F2;
+  --cream-dark:#F0EBE0;
+  --ink:#1A1612;
+  --ink-mid:#4A3F35;
+  --ink-dim:#8A7A6A;
+  --white:#FFFFFF;
+  --accent-red:#8B2635;
+  --accent-teal:#1A5C5A;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* DECORATIVE LINE */
+.deco-line{width:60px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:20px 0;}
+.deco-line.center{margin:20px auto;}
+
+/* ═══════════ LOGIN ═══════════ */
+#loginPage{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--ink);
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.login-art{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1A1612 0%,#2D2419 50%,#1A1612 100%);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px;
+}
+.login-art-pattern{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(45deg,rgba(184,150,62,.05) 0,rgba(184,150,62,.05) 1px,transparent 0,transparent 50%);
+  background-size:20px 20px;
+}
+.login-art-circle{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  border:1px solid rgba(184,150,62,.1);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:rotateCircle 30s linear infinite;
+}
+.login-art-circle::before{
+  content:'';position:absolute;inset:40px;border-radius:50%;
+  border:1px solid rgba(184,150,62,.08);
+}
+@keyframes rotateCircle{to{transform:translate(-50%,-50%) rotate(360deg);}}
+.login-art-text{position:relative;text-align:center;}
+.login-art-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;}
+.login-art-headline{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:var(--white);line-height:1;margin-bottom:16px;}
+.login-art-headline em{font-style:italic;color:var(--gold-light);}
+.login-art-desc{font-size:13px;color:rgba(255,255,255,.4);letter-spacing:1px;line-height:1.8;}
+.login-art-stat{display:flex;gap:48px;margin-top:48px;justify-content:center;}
+.login-stat-item{text-align:center;}
+.login-stat-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold);}
+.login-stat-label{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-top:4px;}
+
+.login-form-side{
+  background:var(--cream);display:flex;flex-direction:column;justify-content:center;
+  align-items:center;padding:80px 60px;
+  animation:slideLeft .8s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes slideLeft{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:none;}}
+.form-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:32px;}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.1;}
+.form-subtitle{font-size:14px;color:var(--ink-dim);margin-bottom:40px;}
+.form-w{width:100%;max-width:380px;}
+.lf-group{margin-bottom:24px;}
+.lf-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-mid);margin-bottom:10px;display:block;font-weight:500;}
+.lf-input{
+  width:100%;border:none;border-bottom:1px solid var(--cream-dark);
+  background:transparent;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;
+  color:var(--ink);outline:none;transition:border-color .3s;
+}
+.lf-input:focus{border-color:var(--gold);}
+.lf-input::placeholder{color:var(--ink-dim);opacity:.5;}
+.btn-signin{
+  width:100%;padding:16px;background:var(--ink);color:var(--white);border:none;
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;
+  cursor:pointer;margin-top:8px;position:relative;overflow:hidden;transition:all .4s;
+}
+.btn-signin::after{
+  content:'';position:absolute;inset:0;background:var(--gold);transform:translateY(100%);transition:.4s cubic-bezier(.16,1,.3,1);
+}
+.btn-signin:hover::after{transform:translateY(0);}
+.btn-signin span{position:relative;z-index:1;}
+.btn-signin:hover span{color:var(--ink);}
+.form-hint{text-align:center;margin-top:20px;font-size:12px;color:var(--ink-dim);}
+.form-hint b{color:var(--gold);}
+
+/* ═══════════ MAIN APP ═══════════ */
+#mainApp{display:none;}
+
+/* NAVBAR */
+.navbar-cv{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(250,247,242,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(184,150,62,.2);padding:0 48px;height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo-text{font-family:'Cinzel',serif;font-size:18px;color:var(--ink);letter-spacing:4px;}
+.nav-logo-text span{color:var(--gold);}
+.nav-links{display:flex;gap:0;}
+.nav-link-item{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-dim);
+  padding:8px 18px;cursor:pointer;transition:all .3s;position:relative;
+  text-decoration:none;font-weight:500;
+}
+.nav-link-item::after{content:'';position:absolute;bottom:-1px;left:18px;right:18px;height:1px;background:var(--gold);transform:scaleX(0);transition:.3s;}
+.nav-link-item:hover,.nav-link-item.active{color:var(--ink);}
+.nav-link-item:hover::after,.nav-link-item.active::after{transform:scaleX(1);}
+.nav-logout{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;cursor:pointer;border:1px solid var(--gold);padding:8px 20px;transition:.3s;}
+.nav-logout:hover{background:var(--gold);color:var(--white);}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  overflow:hidden;
+}
+.hero-left{
+  background:var(--ink);display:flex;flex-direction:column;justify-content:center;
+  padding:120px 60px 60px;position:relative;overflow:hidden;
+}
+.hero-bg-pattern{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(45deg,rgba(184,150,62,.04) 0,rgba(184,150,62,.04) 1px,transparent 0,transparent 50%);
+  background-size:30px 30px;
+}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;position:relative;animation:fadeUp .8s .2s both;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:24px;position:relative;animation:fadeUp .8s .35s both;}
+.hero-title em{font-style:italic;color:var(--gold-light);}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.5);line-height:1.9;max-width:440px;animation:fadeUp .8s .5s both;position:relative;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+
+.hero-right{
+  background:var(--cream-dark);display:flex;align-items:center;justify-content:center;
+  padding:120px 60px 60px;
+}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(184,150,62,.2);border:1px solid rgba(184,150,62,.2);width:100%;}
+.kpi-cell{
+  background:var(--cream);padding:36px 28px;text-align:center;
+  transition:.4s;position:relative;overflow:hidden;
+}
+.kpi-cell::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:.4s;}
+.kpi-cell:hover::before{transform:scaleX(1);}
+.kpi-cell:hover{background:var(--white);}
+.kpi-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-dim);margin-bottom:14px;font-weight:500;}
+.kpi-val{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;line-height:1;color:var(--ink);}
+.kpi-val.gold{color:var(--gold);}
+.kpi-val.red{color:var(--accent-red);}
+.kpi-val.teal{color:var(--accent-teal);}
+.kpi-sub{font-size:11px;color:var(--ink-dim);margin-top:6px;letter-spacing:1px;}
+
+/* SECTIONS */
+.section{padding:100px 0;position:relative;}
+.section-light{background:var(--cream);}
+.section-cream{background:var(--cream-dark);}
+.section-dark{background:var(--ink);color:var(--white);}
+
+.section-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,56px);font-weight:300;line-height:1.1;margin-bottom:16px;}
+.section-title em{font-style:italic;}
+.section-body{font-size:15px;color:var(--ink-dim);line-height:1.9;max-width:540px;}
+.section-body.white{color:rgba(255,255,255,.55);}
+
+/* ANALYTICS CARDS */
+.report-card{
+  background:var(--white);border:1px solid rgba(184,150,62,.15);
+  overflow:hidden;transition:.5s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.report-card:hover{border-color:var(--gold);transform:translateY(-6px);box-shadow:0 30px 80px rgba(26,22,18,.08);}
+.report-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transform:scaleX(0);transition:.4s;transform-origin:left;}
+.report-card:hover::before{transform:scaleX(1);}
+.rc-header{padding:20px 24px;border-bottom:1px solid rgba(184,150,62,.1);display:flex;align-items:center;justify-content:space-between;background:rgba(184,150,62,.03);}
+.rc-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--ink);}
+.rc-badge{font-size:8px;letter-spacing:2px;padding:4px 10px;border:1px solid;text-transform:uppercase;font-weight:500;}
+.badge-r{color:var(--accent-red);border-color:var(--accent-red);}
+.badge-d{color:var(--accent-teal);border-color:var(--accent-teal);}
+.badge-s{color:var(--gold);border-color:var(--gold);}
+.badge-e{color:var(--ink-mid);border-color:var(--ink-mid);}
+.rc-body{padding:20px 24px;}
+.iframe-frame{
+  width:100%;position:relative;padding-bottom:62%;
+  background:var(--cream-dark);border:1px solid rgba(184,150,62,.1);overflow:hidden;
+}
+.iframe-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.rc-insight{margin-top:16px;padding:14px 16px;background:rgba(184,150,62,.05);border-left:2px solid var(--gold);font-size:13px;color:var(--ink-dim);line-height:1.7;}
+.rc-insight b{color:var(--ink);}
+
+/* EXPLORE SECTION */
+.explore-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:0;}
+.em-item{position:relative;overflow:hidden;aspect-ratio:16/9;}
+.em-item img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s cubic-bezier(.16,1,.3,1);filter:sepia(.2) contrast(1.05);}
+.em-item:hover img{transform:scale(1.06);filter:sepia(0) contrast(1.1);}
+.em-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,22,18,.8),transparent);display:flex;align-items:flex-end;padding:16px;}
+.em-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.em-placeholder{background:var(--cream-dark);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;}
+.em-placeholder-text{font-size:9px;letter-spacing:3px;color:var(--ink-dim);text-transform:uppercase;}
+
+/* FINDINGS */
+.finding-card{
+  padding:36px;border:1px solid rgba(184,150,62,.15);background:var(--white);
+  position:relative;transition:.4s;margin-bottom:16px;
+}
+.finding-card:hover{border-color:var(--gold);box-shadow:0 20px 60px rgba(26,22,18,.06);}
+.finding-num{
+  font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;
+  color:rgba(184,150,62,.15);position:absolute;top:16px;right:24px;line-height:1;
+}
+.finding-cat{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+.finding-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.finding-desc{font-size:13px;color:var(--ink-dim);line-height:1.8;}
+.progress-bar-custom{height:2px;background:rgba(184,150,62,.15);margin-top:16px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width 1.4s cubic-bezier(.16,1,.3,1);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:all .9s cubic-bezier(.16,1,.3,1);}
+.reveal.visible{opacity:1;transform:none;}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+
+/* FOOTER */
+footer{background:var(--ink);padding:60px 0;text-align:center;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--white);letter-spacing:6px;}
+.footer-logo span{color:var(--gold);}
+.footer-line{width:60px;height:1px;background:var(--gold);margin:20px auto;}
+.footer-text{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.3);}
+
+section{scroll-margin-top:72px;}
+</style>
+</head>
+<body>
+
+<!-- ════════════ LOGIN ════════════ -->
+<div id="loginPage">
+  <div class="login-art">
+    <div class="login-art-pattern"></div>
+    <div class="login-art-circle"></div>
+    <div class="login-art-text">
+      <div class="login-art-eyebrow">IBM Cognos Analytics</div>
+      <h1 class="login-art-headline">Code<em>Vision</em><br/>Intelligence</h1>
+      <p class="login-art-desc">Project & Resource Analytics Platform<br/>200 Employees · 181 Projects · 3 Regions</p>
+      <div class="login-art-stat">
+        <div class="login-stat-item"><div class="login-stat-val">181</div><div class="login-stat-label">Projects</div></div>
+        <div class="login-stat-item"><div class="login-stat-val">24%</div><div class="login-stat-label">Attrition</div></div>
+        <div class="login-stat-item"><div class="login-stat-val">72%</div><div class="login-stat-label">Billability</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="login-form-side">
+    <div class="form-w">
+      <div class="form-eyebrow">Secure Access</div>
+      <h2 class="form-title">Welcome<br/>Back</h2>
+      <p class="form-subtitle">Sign in to access your analytics platform</p>
+      <div class="lf-group">
+        <label class="lf-label">Username</label>
+        <input class="lf-input" type="text" id="loginUser" placeholder="Enter username"/>
+      </div>
+      <div class="lf-group">
+        <label class="lf-label">Password</label>
+        <input class="lf-input" type="password" id="loginPass" placeholder="Enter password"/>
+      </div>
+      <button class="btn-signin" onclick="doLogin()"><span>Sign In</span></button>
+      <div class="form-hint" style="margin-top:20px;font-size:12px;color:var(--ink-dim);">Demo: <b>admin</b> / <b>admin</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MAIN APP ════════════ -->
+<div id="mainApp">
+
+  <nav class="navbar-cv">
+    <div class="nav-logo-text">CODE<span>VISION</span></div>
+    <div class="nav-links">
+      <a class="nav-link-item active" href="#overview">Overview</a>
+      <a class="nav-link-item" href="#reports">Reports</a>
+      <a class="nav-link-item" href="#exploration">Exploration</a>
+      <a class="nav-link-item" href="#dashboard">Dashboard</a>
+      <a class="nav-link-item" href="#story">Story</a>
+      <a class="nav-link-item" href="#findings">Findings</a>
+    </div>
+    <div class="nav-logout" onclick="logout()">Sign Out</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="overview">
+    <div class="hero-left">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-eyebrow">CS11 · Project & Resource Analytics</div>
+      <h1 class="hero-title">Business<br/><em>Intelligence</em><br/>Platform</h1>
+      <p class="hero-desc">End-to-end analytics delivering project health visibility, resource utilisation insights, and attrition trend analysis for CodeVision IT Solutions — 200 employees across USA, UK and India.</p>
+    </div>
+    <div class="hero-right">
+      <div class="kpi-grid">
+        <div class="kpi-cell">
+          <div class="kpi-label">Active Projects</div>
+          <div class="kpi-val gold" data-target="181">0</div>
+          <div class="kpi-sub">3 Regions</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Attrition Rate</div>
+          <div class="kpi-val red">24.0%</div>
+          <div class="kpi-sub">48 Employees</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Billability</div>
+          <div class="kpi-val gold">72.0%</div>
+          <div class="kpi-sub">Below 75% Target</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Avg Satisfaction</div>
+          <div class="kpi-val teal">3.10</div>
+          <div class="kpi-sub">Scale 1–5</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS Q1 Q2 Q3 -->
+  <section class="section section-cream" id="reports">
+    <div class="container-fluid px-5">
+      <div class="row mb-5">
+        <div class="col">
+          <div class="section-eyebrow reveal">Reporting Module</div>
+          <h2 class="section-title reveal reveal-delay-1">Cognos <em>Reports</em></h2>
+          <div class="deco-line reveal reveal-delay-2"></div>
+          <p class="section-body reveal reveal-delay-2">Live embedded reports providing project health, employee attrition analysis, and billability tracking — with conditional styling and interactive prompts for HR and Finance managers.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-12 reveal reveal-delay-3">
+          <div class="report-card">
+            <div class="rc-header"><span class="rc-title">Q1 · Project Health Report</span><span class="rc-badge badge-r">Report</span></div>
+            <div class="rc-body">
+              <div class="iframe-frame">
+                <iframe src="https://ap2.ca.analytics.ibm.com/bi/?pathRef=.my_folders%2FReport_1&amp;closeWindowOnLastView=true&amp;ui_appbar=false&amp;ui_navbar=false&amp;shareMode=embedded&amp;action=run&amp;format=HTML&amp;prompt=true&amp;nav_filter=true" width="320" height="200" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+              </div>
+              <div class="rc-insight">Budget vs Actual Cost with <b>Cost Overrun %</b>. Conditional styling: Red &gt;20%, Amber 10–20%, Green &lt;10%. <b>32 critical projects</b> identified.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 reveal reveal-delay-3">
+          <div class="report-card">
+            <div class="rc-header"><span class="rc-title">Q2 · Employee Attrition Report</span><span class="rc-badge badge-r">Report</span></div>
+            <div class="rc-body">
+              <div class="iframe-frame">
+                <iframe src="https://ap2.ca.analytics.ibm.com/bi/?pathRef=.my_folders%2FReport_2&amp;closeWindowOnLastView=true&amp;ui_appbar=false&amp;ui_navbar=false&amp;shareMode=embedded&amp;action=run&amp;format=HTML&amp;prompt=false&amp;nav_filter=true" width="320" height="200" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+              </div>
+              <div class="rc-insight"><b>48 employees</b> left. <b>20 high performers</b> (Rating &gt;3) flagged as unexpected loss. Software Dev at 40.6% — highest department attrition.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 reveal reveal-delay-3">
+          <div class="report-card">
+            <div class="rc-header"><span class="rc-title">Q3 · Billability Analysis — Visualize Prompt</span><span class="rc-badge badge-r">Report</span></div>
+            <div class="rc-body">
+              <div class="iframe-frame" style="padding-bottom:42%;">
+                <iframe src="https://ap2.ca.analytics.ibm.com/bi/?pathRef=.my_folders%2FReport_3&amp;closeWindowOnLastView=true&amp;ui_appbar=false&amp;ui_navbar=false&amp;shareMode=embedded&amp;action=run&amp;format=HTML&amp;prompt=true&amp;promptParameters=%5B%7B%22name%22%3A%22techFilter%22%2C%22value%22%3A%5B%5D%7D%5D&amp;nav_filter=true" width="320" height="200" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+              </div>
+              <div class="rc-insight">Interactive chart selection prompt. Overall billability: <b>72.0%</b>. DevOps lowest at 59.3%. QA highest at 91.7%. Amber styling for departments below 75% target.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q4 EXPLORATION -->
+  <section class="section section-light" id="exploration">
+    <div class="container-fluid px-5">
+      <div class="row mb-5">
+        <div class="col-lg-8">
+          <div class="section-eyebrow reveal">Exploration Module</div>
+          <h2 class="section-title reveal reveal-delay-1">Q4 · Cognos <em>Exploration</em></h2>
+          <div class="deco-line reveal reveal-delay-2"></div>
+          <p class="section-body reveal reveal-delay-2">AI-powered cross-variable analysis investigating factors that contribute to employee attrition and project budget overruns across 200 employees and 181 projects.</p>
+        </div>
+      </div>
+      <div class="report-card reveal reveal-delay-3">
+        <div class="rc-header"><span class="rc-title">Q4 · Exploration Canvas — 5 Investigation Charts</span><span class="rc-badge badge-e">Exploration</span></div>
+        <div class="rc-body">
+          <div class="explore-mosaic">
+            <div class="em-item">
+              <img src="./Screenshot 2026-04-07 141611.png" alt="Perf Rating vs Attrition" onerror="this.parentElement.style.background='#F0EBE0';this.style.display='none'"/>
+              <div class="em-overlay"><span class="em-label">Performance Rating vs Attrition</span></div>
+            </div>
+            <div class="em-item">
+              <img src="./Screenshot 2026-04-07 141616.png" alt="Experience vs Attrition" onerror="this.parentElement.style.background='#F0EBE0';this.style.display='none'"/>
+              <div class="em-overlay"><span class="em-label">Experience Years vs Attrition</span></div>
+            </div>
+            <div class="em-item">
+              <img src="./Screenshot 2026-04-07 141621.png" alt="Dept vs Attrition" onerror="this.parentElement.style.background='#F0EBE0';this.style.display='none'"/>
+              <div class="em-overlay"><span class="em-label">Department vs Attrition</span></div>
+            </div>
+            <div class="em-item">
+              <img src="./Screenshot 2026-04-07 141625.png" alt="Project Type vs Budget" onerror="this.parentElement.style.background='#F0EBE0';this.style.display='none'"/>
+              <div class="em-overlay"><span class="em-label">Project Type vs Budget Overrun</span></div>
+            </div>
+            <div class="em-item">
+              <img src="./Screenshot 2026-04-07 141629.png" alt="Budget vs Actual" onerror="this.parentElement.style.background='#F0EBE0';this.style.display='none'"/>
+              <div class="em-overlay"><span class="em-label">Budget vs Actual Cost</span></div>
+            </div>
+            <div class="em-placeholder"><span class="em-placeholder-text">Add More Charts Here</span></div>
+          </div>
+          <div class="rc-insight" style="margin-top:16px;">Exploration reveals: Software Dev attrition at <b>40.6%</b> — 2.3× company average. 4–7 year experience band: <b>35% attrition risk</b> (highest). India region: <b>+2.63% avg overrun</b>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q5 DASHBOARD -->
+  <section class="section section-cream" id="dashboard">
+    <div class="container-fluid px-5">
+      <div class="section-eyebrow reveal">Dashboard Module</div>
+      <h2 class="section-title reveal reveal-delay-1">Q5 · IT Operations <em>Dashboard</em></h2>
+      <div class="deco-line reveal reveal-delay-2"></div>
+      <p class="section-body reveal reveal-delay-2" style="margin-bottom:40px;">Live interactive operations dashboard featuring KPI tiles, regional distribution, monthly trends, project type split, and at-risk project alerts with Department and Client filters.</p>
+      <div class="report-card reveal reveal-delay-3">
+        <div class="rc-header"><span class="rc-title">IT Operations Dashboard — Live Interactive View</span><span class="rc-badge badge-d">Dashboard</span></div>
+        <div class="rc-body">
+          <div class="iframe-frame" style="padding-bottom:56%;">
+            <iframe src="https://ap2.ca.analytics.ibm.com/bi/?perspective=dashboard&pathRef=.my_folders%2Fproject%2Btask%2B05&closeWindowOnLastView=true&ui_appbar=false&ui_navbar=false&shareMode=embedded&action=view&mode=dashboard&subView=model0000019d667e5eda_00000002&nav_filter=true" allowfullscreen></iframe>
+          </div>
+          <div class="rc-insight">4 KPI tiles · Bar chart by Client Country · Line chart Monthly Billable Hours · Pie chart Fixed vs T&M · At-Risk table (Overrun &gt;10%) with Department and Client Country filters.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q6 STORY -->
+  <section class="section section-dark" id="story">
+    <div class="container-fluid px-5">
+      <div class="section-eyebrow reveal" style="color:var(--gold);">Story Module</div>
+      <h2 class="section-title reveal reveal-delay-1" style="color:var(--white);">Q6 · Quarterly Leadership <em>Review</em></h2>
+      <div class="deco-line reveal reveal-delay-2"></div>
+      <p class="section-body white reveal reveal-delay-2" style="margin-bottom:40px;">6-scene interactive data story presented to leadership — covering company overview, project portfolio, resource utilisation, attrition analysis, client revenue, and strategic recommendations.</p>
+      <div class="report-card reveal reveal-delay-3" style="background:#1F1A14;border-color:rgba(184,150,62,.2);">
+        <div class="rc-header" style="border-color:rgba(184,150,62,.15);background:rgba(184,150,62,.05);">
+          <span class="rc-title" style="color:var(--gold-light);">Quarterly Leadership Review — All 6 Scenes</span>
+          <span class="rc-badge badge-s">Story</span>
+        </div>
+        <div class="rc-body">
+          <div class="iframe-frame" style="padding-bottom:56%;background:#111;">
+            <iframe src="https://ap2.ca.analytics.ibm.com/bi/?perspective=story&pathRef=.my_folders%2Fproject%2Btask%2B06&closeWindowOnLastView=true&ui_appbar=false&ui_navbar=false&shareMode=embedded&action=view&sceneId=-2&sceneTime=0&nav_filter=true" allowfullscreen></iframe>
+          </div>
+          <div class="rc-insight" style="background:rgba(184,150,62,.07);border-left-color:var(--gold);color:rgba(255,255,255,.5);">
+            Scene 1 Overview → Scene 2 Portfolio Health → Scene 3 Billability → Scene 4 Attrition → Scene 5 Client Revenue → <b style="color:var(--gold);">Scene 6 Strategic Recommendations</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY FINDINGS -->
+  <section class="section section-light" id="findings">
+    <div class="container-fluid px-5">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="section-eyebrow reveal">Attrition Intelligence</div>
+          <h2 class="section-title reveal reveal-delay-1">Top 3 Risk <em>Factors</em></h2>
+          <div class="deco-line reveal reveal-delay-2"></div>
+          <div style="margin-top:32px;">
+            <div class="finding-card reveal reveal-delay-2">
+              <div class="finding-num">01</div>
+              <div class="finding-cat">Department Risk</div>
+              <div class="finding-title">Software Dev — 40.6% Attrition</div>
+              <div class="finding-desc">13 of 32 employees left. High satisfaction (3.43/5) despite departure — clear compensation gap vs market rates.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:81%;"></div></div>
+            </div>
+            <div class="finding-card reveal reveal-delay-3">
+              <div class="finding-num">02</div>
+              <div class="finding-cat">Experience Band Risk</div>
+              <div class="finding-title">4–7 Year Band — 35.0% Attrition</div>
+              <div class="finding-desc">Mid-career plateau effect. 14 of 40 employees left — prime external recruitment targets with portable skills.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:70%;"></div></div>
+            </div>
+            <div class="finding-card reveal reveal-delay-4">
+              <div class="finding-num">03</div>
+              <div class="finding-cat">Revenue Risk</div>
+              <div class="finding-title">High Billers (&gt;$100/hr) — 33.8%</div>
+              <div class="finding-desc">24 of 71 premium-rate employees departed. Highest revenue contributors are least retained — disproportionate business impact.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:68%;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="section-eyebrow reveal">Project Intelligence</div>
+          <h2 class="section-title reveal reveal-delay-1">Top 3 Overrun <em>Predictors</em></h2>
+          <div class="deco-line reveal reveal-delay-2"></div>
+          <div style="margin-top:32px;">
+            <div class="finding-card reveal reveal-delay-2">
+              <div class="finding-num">01</div>
+              <div class="finding-cat">Contract Risk</div>
+              <div class="finding-title">Fixed Contracts — 18 Critical Cases</div>
+              <div class="finding-desc">Average -2.04% overall, but 18 projects exceed 20% overrun. One poor estimation eliminates margin from 3 on-track projects.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:72%;background:linear-gradient(90deg,var(--accent-teal),#2A8A87);"></div></div>
+            </div>
+            <div class="finding-card reveal reveal-delay-3">
+              <div class="finding-num">02</div>
+              <div class="finding-cat">Regional Risk</div>
+              <div class="finding-title">India Region — +2.63% Avg Overrun</div>
+              <div class="finding-desc">Sole region consistently over budget. Lowest billing rate ($72/hr) provides minimal margin buffer for unexpected scope.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:53%;background:linear-gradient(90deg,var(--accent-teal),#2A8A87);"></div></div>
+            </div>
+            <div class="finding-card reveal reveal-delay-4">
+              <div class="finding-num">03</div>
+              <div class="finding-cat">Contract Pattern</div>
+              <div class="finding-title">T&M Scope Creep — 18 Warning Projects</div>
+              <div class="finding-desc">Time & Materials contracts exhibit systematic small overruns accumulating monthly — scope management gap requiring immediate controls.</div>
+              <div class="progress-bar-custom"><div class="progress-fill" style="width:60%;background:linear-gradient(90deg,var(--accent-teal),#2A8A87);"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">CODE<span>VISION</span></div>
+    <div class="footer-line"></div>
+    <div class="footer-text">IBM Cognos Analytics &nbsp;·&nbsp; CS11 Project & Resource Analytics &nbsp;·&nbsp; Management Confidential</div>
+  </footer>
+
+</div><!-- end mainApp -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function doLogin(){
+  const u=document.getElementById('loginUser').value;
+  const p=document.getElementById('loginPass').value;
+  if(u==='admin'&&p==='admin'){
+    document.getElementById('loginPage').style.transition='opacity .7s, transform .7s';
+    document.getElementById('loginPage').style.opacity='0';
+    document.getElementById('loginPage').style.transform='scale(1.04)';
+    setTimeout(()=>{
+      document.getElementById('loginPage').style.display='none';
+      document.getElementById('mainApp').style.display='block';
+      initApp();
+    },700);
+  } else {
+    const inp=document.getElementById('loginPass');
+    inp.style.borderColor='var(--accent-red)';
+    inp.style.animation='shake .4s ease';
+    setTimeout(()=>{inp.style.borderColor='';inp.style.animation='';},1500);
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function logout(){
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('loginPage').style.display='grid';
+  document.getElementById('loginPage').style.opacity='1';
+  document.getElementById('loginPage').style.transform='none';
+}
+
+const shakeStyle=document.createElement('style');
+shakeStyle.textContent='@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}';
+document.head.appendChild(shakeStyle);
+
+function initApp(){
+  // Scroll reveal
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Counter
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    const target=+el.dataset.target;
+    let count=0;const step=target/80;
+    const t=setInterval(()=>{
+      count=Math.min(count+step,target);
+      el.textContent=Math.floor(count);
+      if(count>=target)clearInterval(t);
+    },16);
+  });
+
+  // Progress bars animate on scroll
+  const pbObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.progress-fill').forEach(bar=>{
+          const w=bar.style.width;bar.style.width='0';
+          setTimeout(()=>{bar.style.width=w;},100);
+        });
+      }
+    });
+  },{threshold:.3});
+  document.querySelectorAll('.finding-card').forEach(el=>pbObs.observe(el));
+
+  // Nav active
+  const sections=document.querySelectorAll('section[id]');
+  const navLinks=document.querySelectorAll('.nav-link-item');
+  window.addEventListener('scroll',()=>{
+    let current='';
+    sections.forEach(s=>{if(window.scrollY>=s.offsetTop-80)current=s.id;});
+    navLinks.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+current);});
+  });
+}
+</script>
+</body>
+</html>
